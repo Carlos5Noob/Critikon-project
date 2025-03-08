@@ -1,0 +1,30 @@
+{% extends "app/base.html" %}
+
+{% block title %}Opiniones de {{ videojuego.title }}{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1 class="text-primary">Reviews disponibles sobre {{ videojuego.title }}</h1>
+        <img src="{{ videojuego.image.url }}" class="img-fluid rounded shadow" style="max-width: 640px;" alt="Portada de {{ videojuego.title }}">
+    </div>
+
+    {% if opiniones %}
+        <div class="list-group">
+            {% for opinion in opiniones %}
+                <div class="list-group-item list-group-item-action mb-2 shadow-sm transform-hover">
+                    <h5 class="mb-1 text-success">Review hecha por: {{ opinion.user }}</h5>
+                    <p class="mb-1">{{ opinion.review_text }}</p>
+                    <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No hay reviews sobre este videojuego</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+
