@@ -7,10 +7,14 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'transform-hover.css' %}">
+    <link rel="stylesheet" href="{% static 'modo.css' %}">
 </head>
 <body>
     <header class="bg-primary text-white p-2 mb-4">
-        <h1>Mi Sitio Web</h1>
+        <a style="text-decoration: none; color: white" href="{% url 'app:videojuegos' %}"><h1>Critikon</h1></a>
+        <button id="dark-mode-toggle">
+            🌙
+        </button>
     </header>
 
     <main>
@@ -23,5 +27,33 @@
         <p>&copy; 2025 Critikon</p>
         <p>Todos los derechos reservados</p>
     </footer>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButton = document.getElementById("dark-mode-toggle");
+        const body = document.body;
+
+        // Verifica si hay un tema guardado en localStorage
+        if (localStorage.getItem("theme") === "dark") {
+            body.classList.add("dark-mode");
+            toggleButton.textContent = "☀️";  // Cambia el icono a sol
+        }
+
+        toggleButton.addEventListener("click", function () {
+            body.classList.toggle("dark-mode");
+
+            // Guarda el estado en localStorage
+            if (body.classList.contains("dark-mode")) {
+                localStorage.setItem("theme", "dark");
+                toggleButton.textContent = "☀️";  // Cambia a icono de sol
+            } else {
+                localStorage.setItem("theme", "light");
+                toggleButton.textContent = "🌙";  // Cambia a icono de luna
+            }
+        });
+    });
+</script>
+
+
 </body>
 </html>
