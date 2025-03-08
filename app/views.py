@@ -28,6 +28,11 @@ class ListVideogames(ListView):
             elif orden == "-release_date":
                 queryset = queryset.order_by("-release_date")
 
+        # Búsqueda
+        busqueda = self.request.GET.get("buscar")
+        if busqueda:
+            queryset = queryset.filter(title__icontains=busqueda)
+
         return queryset
 
     def get_context_data(self, **kwargs):
