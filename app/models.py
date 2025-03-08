@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Videojuego(models.Model):
-    SHOOTER = 'S'
-    RPG = 'R'
-    MMO = 'M'
-    ARCADE = 'A'
-    HORROR = 'H'
+    SHOOTER = 'Shooter'
+    RPG = 'RPG'
+    MMO = 'MMO'
+    ARCADE = 'Arcade'
+    HORROR = 'Horror'
     GENERO_CHOICES = [
         (SHOOTER, 'Shooter'),
         (RPG, 'Rpg'),
@@ -20,9 +20,12 @@ class Videojuego(models.Model):
     rating = models.FloatField(default=0)  # Este campo se actualizará con la media
     image = models.ImageField()
     genero = models.CharField(
-        max_length=1,
+        max_length=20,
         choices=GENERO_CHOICES
     )
+
+    class Meta:
+        ordering = ['title']
 
     def __str__(self):
         return self.title
