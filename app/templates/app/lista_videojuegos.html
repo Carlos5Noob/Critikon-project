@@ -1,0 +1,40 @@
+{% extends "app/base.html" %}
+
+{% block title %}Videojuegos disponibles{% endblock %}
+
+{% block content %}
+
+
+
+    <div class="container mt-4">
+    <div class="row">
+        {% for videojuego in videojuegos %}
+            <div class="col-md-4 mb-4 transform-hover">
+                <div class="card shadow-sm">
+                    <img src="{{ videojuego.image.url }}" class="card-img-top" alt="Portada de {{ videojuego.title }}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">{{ videojuego.title }}</h5>
+                        <p class="card-text"><strong>Género:</strong> {{ videojuego.genero }}</p>
+                        <p class="card-text"><strong>Fecha de lanzamiento:</strong> {{ videojuego.release_date }}</p>
+                        <p class="card-text"><strong>Rating:</strong> ⭐{{ videojuego.rating }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
