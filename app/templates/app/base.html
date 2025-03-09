@@ -17,10 +17,17 @@
             </a>
             <button id="dark-mode-toggle">🌙</button>
         </div>
-        <div class="me-5">
-            <a style="text-decoration: none; color: white" href="{% url 'app:opiniones_recientes' %}">
-                Opiniones más recientes
+        <div class="d-flex align-items-center gap-3 me-5 position-relative">
+            <a href="{% url 'app:opiniones_recientes' %}">
+                <button class="btn btn-primary">Opiniones recientes</button>
             </a>
+            <div class="position-relative">
+                <button id="user-button" class="btn btn-primary">Hola, {{ usuario|capfirst }}</button>
+                <form id="logout-form" action="{% url 'logout' %}" class="d-none position-absolute w-auto" style="top: 100%; left: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger text-nowrap">Cerrar sesión</button>
+                </form>
+            </div>
         </div>
     </header>
 
@@ -36,7 +43,12 @@
         <p>Todos los derechos reservados</p>
     </footer>
 
-    <script>
+<script>
+
+    document.getElementById("user-button").addEventListener("click", function() {
+        document.getElementById("logout-form").classList.toggle("d-none");
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
         const toggleButton = document.getElementById("dark-mode-toggle");
         const body = document.body;
