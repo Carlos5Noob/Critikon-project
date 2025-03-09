@@ -49,3 +49,25 @@ def lista_opiniones(request, game_id):
         'videojuego': videojuego,
         'opiniones': opiniones
     })
+
+class ListOpinionsRecents(ListView):
+    template_name = "app/lista_opiniones_recientes.html"
+    context_object_name = 'opiniones'
+
+    def get_queryset(self):
+        return Opinion.objects.order_by("-created_at")[:10]
+
+
+def crear_review(request, game_id):
+    if request.method == "POST":
+        user = request.user
+        game = Videojuego.objects.get(id=game_id)
+        review_text = request.POST.get("review_text")
+        rating = request.POST.get("rating")
+
+        nueva_opinion = Opinion(user=user, game=game, review_text=review_text, rating=rating)
+        nueva_opinion.save()
+
+        return render(request, 'app/crear_review.html', context={"mensaje": "Opinión creada correctamente"})
+
+    return render(request, 'app/crear_review.html')
