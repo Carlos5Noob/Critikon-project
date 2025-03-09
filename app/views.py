@@ -5,7 +5,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
 from .forms import RegisterForm
-from .models import Videojuego, Opinion
+from .models import Videojuego, Opinion, CustomUser
+
 
 # Create your views here.
 
@@ -98,3 +99,17 @@ def registro(request):
         form = RegisterForm()
 
     return render(request, 'registration/registro.html', {'form': form})
+
+@login_required
+def mis_reviews(request):
+    usuario = request.user
+    opiniones = Opinion.objects.filter(user_id=usuario.id)
+
+    return render(request, 'app/mis_reviews.html', context={'opiniones': opiniones, 'usuario': usuario})
+
+@login_required
+def reviews_id(request, user_id):
+    usuario_nombre = CustomUser.objects.get(id=user_id)
+    opiniones = Opinion.objects.filter(user_id=user_id)
+
+    return render(request, 'app/reviews_id.html', context={'opiniones': opiniones, 'usuario': request.user, 'usuario_nombre': usuario_nombre})
