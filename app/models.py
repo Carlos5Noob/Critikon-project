@@ -1,5 +1,13 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
+
+
+class CustomUser(AbstractUser):
+    avatar = models.ImageField()
+
+    def __str__(self):
+        return self.username
 
 class Videojuego(models.Model):
     SHOOTER = 'Shooter'
@@ -40,14 +48,14 @@ class Videojuego(models.Model):
 
 
 class Opinion(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="opinions")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="opinions")
     game = models.ForeignKey(Videojuego, on_delete=models.CASCADE, related_name="opinions")
     review_text = models.TextField()
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # Puntuación de 1 a 5
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ("user", "game")  # Un usuario solo puede opinar una vez por juego
+    # class Meta:
+    #    unique_together = ("user", "game")  # Un usuario solo puede opinar una vez por juego
 
     def __str__(self):
         return f"Opinión de {self.user.username} sobre {self.game.title}"
