@@ -7,5 +7,7 @@ urlpatterns = [
     path('<int:game_id>/', views.lista_opiniones, name='lista_opiniones'),
     path('opiniones-recientes/', views.ListOpinionsRecents.as_view(), name='opiniones_recientes'),
     path('<int:game_id>/crear_review/', views.crear_review, name='crear_review'),
+    path('mis_reviews/', views.mis_reviews, name='mis_reviews'),
+    path('reviews/<int:user_id>/', views.reviews_id, name='reviews_id'),
     path('registro/', views.registro, name='registro'),
 ]
