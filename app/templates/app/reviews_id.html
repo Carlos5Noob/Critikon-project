@@ -1,0 +1,48 @@
+{% extends "app/base.html" %}
+
+{% block title %}Reviews de {{ usuario_nombre }}{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-4">
+        <div class="text-center mb-4">
+            <h1 class="text-primary">Reviews de {{ usuario_nombre }}: </h1>
+        </div>
+
+        {% if opiniones %}
+
+            <div class="list-group">
+                    {% for opinion in opiniones %}
+                        <div class="list-group-item list-group-item-action mb-2 shadow-sm transform-hover d-flex align-items-center">
+                            {% if opinion.user.avatar %}
+                                <img src="{{ opinion.user.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
+                            {% endif %}
+                            <div>
+                                <p class="mb-1">{{ opinion.review_text }}</p>
+                                <small class="mb-1">Videojuego reseñado: <a href="{% url 'app:lista_opiniones' opinion.game.id %}">{{ opinion.game.title }}</a></small> <br>
+                                <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+        {% else %}
+            <p>Este usuario no ha registrado ninguna review.</p>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
