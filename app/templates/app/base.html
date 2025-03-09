@@ -10,12 +10,20 @@
     <link rel="stylesheet" href="{% static 'modo.css' %}">
 </head>
 <body>
-    <header class="bg-primary text-white p-2 mb-4">
-        <a style="text-decoration: none; color: white" href="{% url 'app:videojuegos' %}"><h1>Critikon</h1></a>
-        <button id="dark-mode-toggle">
-            🌙
-        </button>
+    <header class="bg-primary text-white p-2 mb-4 d-flex flex-column flex-sm-row align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+            <a style="text-decoration: none; color: white" href="{% url 'app:videojuegos' %}">
+                <h1>Critikon</h1>
+            </a>
+            <button id="dark-mode-toggle">🌙</button>
+        </div>
+        <div class="me-5">
+            <a style="text-decoration: none; color: white" href="{% url 'app:opiniones_recientes' %}">
+                Opiniones más recientes
+            </a>
+        </div>
     </header>
+
 
     <main>
         {% block content %}
