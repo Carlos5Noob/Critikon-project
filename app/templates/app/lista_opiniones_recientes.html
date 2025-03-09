@@ -17,7 +17,7 @@
                             <img src="{{ opinion.user.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
                         {% endif %}
                         <div>
-                            <h5 class="mb-1 text-success">Review hecha por: {{ opinion.user }}</h5>
+                            <h5 class="mb-1 text-success">Review hecha por: <a href="{% url 'app:reviews_id' opinion.user.id %}">{{ opinion.user }}</a></h5>
                             <p class="mb-1">{{ opinion.review_text }}</p>
                             <small class="mb-1">Videojuego reseñado: <a href="{% url 'app:lista_opiniones' opinion.game.id %}">{{ opinion.game.title }}</a></small> <br>
                             <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
