@@ -13,16 +13,27 @@
     {% if opiniones %}
         <div class="list-group">
             {% for opinion in opiniones %}
-                <div class="list-group-item list-group-item-action mb-2 shadow-sm transform-hover">
-                    <h5 class="mb-1 text-success">Review hecha por: {{ opinion.user }}</h5>
-                    <p class="mb-1">{{ opinion.review_text }}</p>
-                    <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
+                <div class="list-group-item list-group-item-action mb-2 shadow-sm transform-hover d-flex align-items-center">
+                    {% if opinion.user.avatar %}
+                        <img src="{{ opinion.user.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
+                    {% endif %}
+                    <div>
+                        <h5 class="mb-1 text-success">Review hecha por: {{ opinion.user }}</h5>
+                        <p class="mb-1">{{ opinion.review_text }}</p>
+                        <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
+                    </div>
                 </div>
+
             {% endfor %}
         </div>
     {% else %}
         <p class="text-center text-muted">No hay reviews sobre este videojuego</p>
     {% endif %}
+
+    <div class="text-center">
+        <a href="{% url 'app:crear_review' videojuego.id %}"><button class="mb-2 btn btn-primary">Crear review para este videojuego</button></a>
+    </div>
+
 </div>
 
 {% endblock %}
