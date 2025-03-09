@@ -50,7 +50,7 @@
                         <h5 class="card-title text-danger">{{ videojuego.title }}</h5>
                         <p class="card-text text-dark"><strong>Género:</strong> {{ videojuego.genero }}</p>
                         <p class="card-text text-dark"><strong>Fecha de lanzamiento:</strong> {{ videojuego.release_date }}</p>
-                        <p class="card-text text-dark"><strong>Rating:</strong> ⭐{{ videojuego.rating }}</p>
+                        <p class="card-text text-dark"><strong>Rating:</strong> ⭐{{ videojuego.rating|floatformat:2 }}</p>
                         <a href="{% url 'app:lista_opiniones' videojuego.id %}"><button class="btn btn-primary">Ver reviews</button></a>
                     </div>
                 </div>
