@@ -1,0 +1,44 @@
+{% extends "app/base.html" %}
+
+{% block title %}Formulario crear review{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-4">
+        <div class="text-center mb-4">
+            <h1 class="text-primary">Cree una nueva review:</h1>
+        </div>
+
+        <form class="" method="post">
+            {% csrf_token %}
+
+            <label class="form-label" for="review_text">Opinión:</label>
+            <textarea class="form-control" id="review_text" name="review_text" rows="5" cols="50"></textarea>
+            <label class="form-label" for="rating">Rating:</label>
+            <input class="form-control" type="number" id="rating" name="rating" min="0" max="5" step="1" value="0" required>
+
+            <button type="submit" class="mt-2 mb-5 btn btn-primary">Enviar</button>
+
+        </form>
+
+    {% if mensaje %}
+
+        <p style="color: deepskyblue" class="h4 text-center">{{ mensaje }}</p>
+
+    {% endif %}
+
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
