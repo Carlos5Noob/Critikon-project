@@ -8,6 +8,11 @@
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'transform-hover.css' %}">
     <link rel="stylesheet" href="{% static 'modo.css' %}">
+    <style>
+        .hover-bg:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
     <header class="bg-primary text-white p-2 mb-4 d-flex flex-column flex-sm-row align-items-center justify-content-between">
@@ -18,15 +23,19 @@
             <button id="dark-mode-toggle">🌙</button>
         </div>
         <div class="d-flex align-items-center gap-3 me-5 position-relative">
-            <a href="{% url 'app:opiniones_recientes' %}">
-                <button class="btn btn-primary">Opiniones recientes</button>
+            <a href="{% url 'app:opiniones_recientes' %}" class="text-decoration-none text-white">
+                Opiniones recientes de la comunidad
             </a>
             <div class="position-relative">
-                <button id="user-button" class="btn btn-primary">Hola, {{ usuario|capfirst }}</button>
-                <form id="logout-form" action="{% url 'logout' %}" class="d-none position-absolute w-auto" style="top: 100%; left: 0;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger text-nowrap">Cerrar sesión</button>
-                </form>
+                <button id="user-button" class="btn btn-light text-dark fw-bold px-3 py-1 border rounded">Hola, {{ usuario|capfirst }} ▼</button>
+                <div id="user-menu" class="d-none position-absolute bg-white p-3 rounded shadow-lg" style="top: 100%; left: 0; min-width: 180px;">
+                    <a href="{% url 'app:mis_reviews' %}" class="d-block text-decoration-none text-dark py-1 px-2 rounded hover-bg">👀 Ver mis reviews</a>
+                    <hr class="my-2">
+                    <form action="{% url 'logout' %}" class="m-0">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link text-danger text-decoration-none w-100 text-start px-2 py-1">🚪 Cerrar sesión</button>
+                    </form>
+                </div>
             </div>
         </div>
     </header>
@@ -46,7 +55,7 @@
 <script>
 
     document.getElementById("user-button").addEventListener("click", function() {
-        document.getElementById("logout-form").classList.toggle("d-none");
+        document.getElementById("user-menu").classList.toggle("d-none");
     });
 
     document.addEventListener("DOMContentLoaded", function () {
