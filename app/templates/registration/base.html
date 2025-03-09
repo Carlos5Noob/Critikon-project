@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Mi Aplicación{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+
+
+
+    <main>
+        {% block content %}
+        <!-- Contenido dinámico irá aquí -->
+        {% endblock %}
+    </main>
+
+
+
+</body>
+</html>
