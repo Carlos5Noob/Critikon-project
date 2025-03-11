@@ -12,16 +12,36 @@
     {% if opiniones %}
             <div class="list-group">
                 {% for opinion in opiniones %}
-                    <div class="list-group-item list-group-item-action mb-2 shadow-sm transform-hover d-flex align-items-center">
-                        {% if opinion.user.avatar %}
-                            <img src="{{ opinion.user.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
-                        {% endif %}
-                        <div>
-                            <h5 class="mb-1 text-success">Review hecha por: <a href="{% url 'app:reviews_id' opinion.user.id %}">{{ opinion.user }}</a></h5>
-                            <p class="mb-1">{{ opinion.review_text }}</p>
-                            <small class="mb-1">Videojuego reseñado: <a href="{% url 'app:lista_opiniones' opinion.game.id %}">{{ opinion.game.title }}</a></small> <br>
-                            <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
+                    <div class="list-group-item list-group-item-action mb-3 shadow-sm">
+                        <div class="d-flex align-items-center">
+                            {% if opinion.user.avatar %}
+                                <img src="{{ opinion.user.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
+                            {% endif %}
+                            <div>
+                                <h5 class="mb-1 text-success">Review hecha por: <a href="{% url 'app:reviews_id' opinion.user.id %}">{{ opinion.user }}</a></h5>
+                                <p class="mb-1">{{ opinion.review_text }}</p>
+                                <small class="mb-1">Videojuego reseñado: <a href="{% url 'app:lista_opiniones' opinion.game.id %}">{{ opinion.game.title }}</a></small> <br>
+                                <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
+                            </div>
                         </div>
+
+
+                    <!-- Comentarios de esta opinión -->
+                    {% if opinion.comentarios.all %}
+                        <div class="mt-3 p-2 border rounded bg-light">
+                            <h6 class="text-secondary">Comentarios:</h6>
+                            {% for comentario in opinion.comentarios.all %}
+                                <div class="p-2 mb-2 border-bottom">
+                                    {% if comentario.user.avatar %}
+                                        <img src="{{ comentario.user.avatar.url }}" alt="avatar usuario" class="rounded-circle shadow me-3" style="width: 35px; height: 35px;">
+                                    {% endif %}
+                                    <strong>{{ comentario.user.username }}:</strong> {{ comentario.texto }}
+                                    <br>
+                                    <small class="text-muted">{{ comentario.created_at }}</small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     </div>
                 {% endfor %}
             </div>
