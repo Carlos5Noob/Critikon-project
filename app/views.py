@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
 from .forms import RegisterForm
-from .models import Videojuego, Opinion, CustomUser
+from .models import Videojuego, Opinion, CustomUser, Comentario
 
 
 # Create your views here.
@@ -53,24 +53,48 @@ def lista_opiniones(request, game_id):
     videojuego = get_object_or_404(Videojuego, id=game_id)
     opiniones = Opinion.objects.filter(game_id=game_id).prefetch_related("comentarios")
 
+    if request.method == "POST":
+        texto = request.POST.get("texto")
+        user_id = request.user.id
+        opinion_id = request.POST.get("id_opinion")
+
+        nuevo_comentario = Comentario(texto=texto, user_id=user_id, opinion_id=opinion_id)
+        nuevo_comentario.save()
+
     return render(request, 'app/lista_opiniones.html', context={
         'videojuego': videojuego,
         'opiniones': opiniones,
         'usuario': request.user
     })
 
-class ListOpinionsRecents(LoginRequiredMixin, ListView):
-    template_name = "app/lista_opiniones_recientes.html"
-    context_object_name = 'opiniones'
-    model = Opinion
+@login_required
+def lista_opiniones_recientes(request):
+    opiniones = Opinion.objects.order_by("-created_at")[:10]
+    usuario = request.user
 
-    def get_queryset(self):
-        return Opinion.objects.order_by("-created_at")[:10]
+    if request.method == "POST":
+        texto = request.POST.get("texto")
+        user_id = request.user.id
+        opinion_id = request.POST.get("id_opinion")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["usuario"] = self.request.user
-        return context
+        nuevo_comentario = Comentario(texto=texto, user_id=user_id, opinion_id=opinion_id)
+        nuevo_comentario.save()
+
+    return render(request, 'app/lista_opiniones_recientes.html', context={"opiniones": opiniones, "usuario": usuario})
+
+# vista basada en clase que he comentado para poder hacer el request.method.POST. Función nueva la de arriba
+# class ListOpinionsRecents(LoginRequiredMixin, ListView):
+#     template_name = "app/lista_opiniones_recientes.html"
+#     context_object_name = 'opiniones'
+#     model = Opinion
+#
+#     def get_queryset(self):
+#         return Opinion.objects.order_by("-created_at")[:10]
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["usuario"] = self.request.user
+#         return context
 
 @login_required
 def crear_review(request, game_id):
@@ -111,5 +135,13 @@ def mis_reviews(request):
 def reviews_id(request, user_id):
     usuario_nombre = CustomUser.objects.get(id=user_id)
     opiniones = Opinion.objects.filter(user_id=user_id)
+
+    if request.method == "POST":
+        texto = request.POST.get("texto")
+        user_id = request.user.id
+        opinion_id = request.POST.get("id_opinion")
+
+        nuevo_comentario = Comentario(texto=texto, user_id=user_id, opinion_id=opinion_id)
+        nuevo_comentario.save()
 
     return render(request, 'app/reviews_id.html', context={'opiniones': opiniones, 'usuario': request.user, 'usuario_nombre': usuario_nombre})
