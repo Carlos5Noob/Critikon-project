@@ -1,6 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, F
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
@@ -145,3 +146,14 @@ def reviews_id(request, user_id):
         nuevo_comentario.save()
 
     return render(request, 'app/reviews_id.html', context={'opiniones': opiniones, 'usuario': request.user, 'usuario_nombre': usuario_nombre})
+
+@login_required
+def top_users(request):
+    top_users = CustomUser.objects.annotate(
+        num_opiniones=Count('opinions', distinct=True),
+        num_comentarios=Count('comentarios', distinct=True),
+    ).annotate(
+        total_contribuciones=F('num_opiniones') + F('num_comentarios')
+    ).order_by('-total_contribuciones')[:3]
+
+    return render(request, 'app/top_users.html', context={'top_users': top_users, 'usuario': request.user})
