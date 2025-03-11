@@ -1,0 +1,61 @@
+{% extends "app/base.html" %}
+
+{% block title %}Mejores usuarios de la plataforma{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-5 text-center">
+    <div class="d-flex justify-content-start">
+        <h2 class="text-primary fw-bold">🏆 Top 3 Usuarios Más Activos</h2>
+    </div>
+    {% if top_users|length == 3 %}
+        <div class="d-flex justify-content-center align-items-end mt-5 w-100 px-5">
+            <!-- Segundo Lugar -->
+            <div class="mx-4 text-center flex-grow-1">
+                <div class="bg-secondary text-white p-4 rounded-4 shadow-lg position-relative" style="height: 250px;">
+                    {% if top_users.1.avatar %}
+                        <img src="{{ top_users.1.avatar.url }}" class="rounded-circle border border-light"
+                             style="width: 90px; height: 90px; position: absolute; top: -45px; left: 50%; transform: translateX(-50%);">
+                    {% endif %}
+                    <h4 class="mt-5"><a style="text-decoration: none; color: black" href="{% url 'app:reviews_id' top_users.1.id %}">{{ top_users.1.username }}</a></h4>
+                    <p class="mb-1 fs-5">📝 {{ top_users.1.num_opiniones }} | 💬 {{ top_users.1.num_comentarios }}</p>
+                    <h6>Total contribuciones: {{ top_users.1.total_contribuciones }}</h6>
+                    <strong class="fs-3">🥈 #2</strong>
+                </div>
+            </div>
+
+            <!-- Primer Lugar (más grande en el centro) -->
+            <div class="mx-4 text-center flex-grow-1">
+                <div class="bg-warning text-dark p-5 rounded-4 shadow-lg position-relative" style="height: 300px;">
+                    {% if top_users.0.avatar %}
+                        <img src="{{ top_users.0.avatar.url }}" class="rounded-circle border border-dark"
+                             style="width: 110px; height: 110px; position: absolute; top: -55px; left: 50%; transform: translateX(-50%);">
+                    {% endif %}
+                    <h3 class="mt-5 fw-bold"><a style="text-decoration: none; color: black" href="{% url 'app:reviews_id' top_users.0.id %}">{{ top_users.0.username }}</a></h3>
+                    <p class="mb-1 fs-4">📝 {{ top_users.0.num_opiniones }} | 💬 {{ top_users.0.num_comentarios }}</p>
+                    <h6>Total contribuciones: {{ top_users.0.total_contribuciones }}</h6>
+                    <strong class="fs-2">🏆 #1</strong>
+                </div>
+            </div>
+
+            <!-- Tercer Lugar -->
+            <div class="mx-4 text-center flex-grow-1">
+                <div class="text-white p-4 rounded-4 shadow-lg position-relative" style="height: 220px; background-color: saddlebrown;">
+                    {% if top_users.2.avatar %}
+                        <img src="{{ top_users.2.avatar.url }}" class="rounded-circle border border-light"
+                             style="width: 80px; height: 80px; position: absolute; top: -40px; left: 50%; transform: translateX(-50%);">
+                    {% endif %}
+                    <h4 class="mt-5"><a style="text-decoration: none; color: black" href="{% url 'app:reviews_id' top_users.2.id %}">{{ top_users.2.username }}</a></h4>
+                    <p class="mb-1 fs-5">📝 {{ top_users.2.num_opiniones }} | 💬 {{ top_users.2.num_comentarios }}</p>
+                    <h6>Total contribuciones: {{ top_users.2.total_contribuciones }}</h6>
+                    <strong class="fs-3">🥉 #3</strong>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <p class="text-center text-muted">No hay suficientes usuarios con actividad.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
