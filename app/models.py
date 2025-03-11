@@ -64,3 +64,12 @@ class Opinion(models.Model):
         """Sobrescribe el método save para actualizar el rating del juego cuando se guarda la opinión."""
         super().save(*args, **kwargs)  # Guarda la opinión normalmente
         self.game.update_rating()  # Actualiza el rating del juego después de guardar la opinión
+
+class Comentario(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comentarios")
+    opinion = models.ForeignKey(Opinion, on_delete=models.CASCADE, related_name="comentarios")
+    texto = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.texto
