@@ -51,7 +51,7 @@ class ListVideogames(LoginRequiredMixin, ListView):
 @login_required
 def lista_opiniones(request, game_id):
     videojuego = get_object_or_404(Videojuego, id=game_id)
-    opiniones = Opinion.objects.filter(game_id=game_id)
+    opiniones = Opinion.objects.filter(game_id=game_id).prefetch_related("comentarios")
 
     return render(request, 'app/lista_opiniones.html', context={
         'videojuego': videojuego,
