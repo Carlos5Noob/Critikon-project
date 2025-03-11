@@ -11,7 +11,7 @@
     {% if top_users|length == 3 %}
         <div class="d-flex justify-content-center align-items-end mt-5 w-100 px-5">
             <!-- Segundo Lugar -->
-            <div class="mx-4 text-center flex-grow-1">
+            <div class="mx-4 text-center flex-grow-1 transform-hover">
                 <div class="bg-secondary text-white p-4 rounded-4 shadow-lg position-relative" style="height: 250px;">
                     {% if top_users.1.avatar %}
                         <img src="{{ top_users.1.avatar.url }}" class="rounded-circle border border-light"
@@ -25,7 +25,7 @@
             </div>
 
             <!-- Primer Lugar (más grande en el centro) -->
-            <div class="mx-4 text-center flex-grow-1">
+            <div class="mx-4 text-center flex-grow-1 transform-hover">
                 <div class="bg-warning text-dark p-5 rounded-4 shadow-lg position-relative" style="height: 300px;">
                     {% if top_users.0.avatar %}
                         <img src="{{ top_users.0.avatar.url }}" class="rounded-circle border border-dark"
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Tercer Lugar -->
-            <div class="mx-4 text-center flex-grow-1">
+            <div class="mx-4 text-center flex-grow-1 transform-hover">
                 <div class="text-white p-4 rounded-4 shadow-lg position-relative" style="height: 220px; background-color: saddlebrown;">
                     {% if top_users.2.avatar %}
                         <img src="{{ top_users.2.avatar.url }}" class="rounded-circle border border-light"
