@@ -10,5 +10,6 @@ urlpatterns = [
     path('mis_reviews/', views.mis_reviews, name='mis_reviews'),
     path('reviews/<int:user_id>/', views.reviews_id, name='reviews_id'),
     path('top-users/', views.top_users, name='top_users'),
+    path('cambiar-avatar/', views.cambiar_avatar, name='cambiar_avatar'),
     path('registro/', views.registro, name='registro'),
 ]
