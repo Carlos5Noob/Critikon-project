@@ -30,9 +30,15 @@
                 Opiniones recientes de la comunidad
             </a>
             <div class="position-relative">
+                {% if request.user.avatar %}
+                    <button style="background-color: #0d6efd; border: none" id="user-button"><img class="img-fluid rounded-circle border border-light" style="width: 50px; height: 50px" src="{{ request.user.avatar.url }}" alt="avatar del usuario"></button>
+                {% else %}
                 <button id="user-button" class="btn btn-light text-dark fw-bold px-3 py-1 border rounded">Hola, {{ usuario|capfirst }} ▼</button>
-                <div id="user-menu" class="d-none position-absolute bg-white p-3 rounded shadow-lg" style="top: 100%; left: 0; min-width: 180px;">
+                {% endif %}
+                <div id="user-menu" class="d-none position-absolute bg-white p-3 rounded shadow-lg" style="top: 120%; left: 0; min-width: 100px; z-index: 1050;">
                     <a href="{% url 'app:mis_reviews' %}" class="d-block text-decoration-none text-dark py-1 px-2 rounded hover-bg">👀 Ver mis reviews</a>
+                    <hr class="my-2">
+                    <a href="{% url 'app:cambiar_avatar' %}" class="d-block text-decoration-none text-dark py-1 px-2 rounded hover-bg">Cambiar avatar</a>
                     <hr class="my-2">
                     <form action="{% url 'logout' %}" class="m-0">
                         {% csrf_token %}
