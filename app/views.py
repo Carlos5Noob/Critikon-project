@@ -157,3 +157,14 @@ def top_users(request):
     ).order_by('-total_contribuciones')[:3]
 
     return render(request, 'app/top_users.html', context={'top_users': top_users, 'usuario': request.user})
+
+@login_required
+def cambiar_avatar(request):
+    if request.method == "POST":
+        foto = request.FILES.get("foto")
+        request.user.avatar = foto
+        request.user.save()
+
+        return render(request, 'app/cambiar_avatar.html', context={'usuario': request.user, 'mensaje': "Avatar actualizado correctamente"})
+
+    return render(request, 'app/cambiar_avatar.html', context={'usuario': request.user})
