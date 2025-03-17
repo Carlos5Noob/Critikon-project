@@ -6,13 +6,14 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-    <link rel="stylesheet" href="{% static 'transform-hover.css' %}">
-    <link rel="stylesheet" href="{% static 'modo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/transform-hover.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modo.css' %}">
     <style>
         .hover-bg:hover {
             background-color: #f8f9fa;
         }
     </style>
+<meta name="csrf-token" content="{{ csrf_token }}">
 </head>
 <body>
     <header class="bg-primary text-white p-2 mb-4 d-flex flex-column flex-sm-row align-items-center justify-content-between">
