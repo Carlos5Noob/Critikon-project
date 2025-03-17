@@ -13,5 +13,6 @@ urlpatterns = [
     path('cambiar-avatar/', views.cambiar_avatar, name='cambiar_avatar'),
     path('opinion/<int:opinion_id>/like/', views.opinion_like, name='opinion_like'),
     path('opinion/<int:opinion_id>/dislike/', views.opinion_dislike, name='opinion_dislike'),
+    path('top-opinions/', views.mejores_opiniones, name='mejores_opiniones'),
     path('registro/', views.registro, name='registro'),
 ]
