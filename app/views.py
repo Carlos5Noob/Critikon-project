@@ -2,6 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, F
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
@@ -168,3 +169,33 @@ def cambiar_avatar(request):
         return render(request, 'app/cambiar_avatar.html', context={'usuario': request.user, 'mensaje': "Avatar actualizado correctamente"})
 
     return render(request, 'app/cambiar_avatar.html', context={'usuario': request.user})
+
+@login_required
+def opinion_like(request, opinion_id):
+    if request.method == "POST":
+        opinion = get_object_or_404(Opinion, id=opinion_id)
+        user = request.user
+
+        if user in opinion.likes.all():
+            opinion.likes.remove(user)
+        else:
+            opinion.likes.add(user)
+            opinion.dislikes.remove(user)  # Si da like, quita dislike
+
+        return JsonResponse({"likes": opinion.likes.count(), "dislikes": opinion.dislikes.count()})
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+@login_required
+def opinion_dislike(request, opinion_id):
+    if request.method == "POST":
+        opinion = get_object_or_404(Opinion, id=opinion_id)
+        user = request.user
+
+        if user in opinion.dislikes.all():
+            opinion.dislikes.remove(user)
+        else:
+            opinion.dislikes.add(user)
+            opinion.likes.remove(user)  # Si da dislike, quita like
+
+        return JsonResponse({"likes": opinion.likes.count(), "dislikes": opinion.dislikes.count()})
+    return JsonResponse({"error": "Método no permitido"}, status=405)
