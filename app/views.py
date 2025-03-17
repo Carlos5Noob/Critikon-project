@@ -199,3 +199,13 @@ def opinion_dislike(request, opinion_id):
 
         return JsonResponse({"likes": opinion.likes.count(), "dislikes": opinion.dislikes.count()})
     return JsonResponse({"error": "Método no permitido"}, status=405)
+
+def mejores_opiniones(request):
+    top_opiniones = Opinion.objects.annotate(
+        total_likes=Count('likes', distinct=True),
+        total_dislikes=Count('dislikes', distinct=True),
+    ).annotate(
+        diferencia=F('total_likes') - F('total_dislikes')
+    ).order_by('-diferencia')[:5]
+
+    return render(request, 'app/top_opiniones.html', context={'top_opiniones': top_opiniones, 'usuario': request.user})
