@@ -53,6 +53,8 @@ class Opinion(models.Model):
     review_text = models.TextField()
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])  # Puntuación de 1 a 5
     created_at = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_opinions", blank=True)
+    dislikes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="dislike_opinions", blank=True)
 
     # class Meta:
     #    unique_together = ("user", "game")  # Un usuario solo puede opinar una vez por juego
