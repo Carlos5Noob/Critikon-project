@@ -11,5 +11,7 @@ urlpatterns = [
     path('reviews/<int:user_id>/', views.reviews_id, name='reviews_id'),
     path('top-users/', views.top_users, name='top_users'),
     path('cambiar-avatar/', views.cambiar_avatar, name='cambiar_avatar'),
+    path('opinion/<int:opinion_id>/like/', views.opinion_like, name='opinion_like'),
+    path('opinion/<int:opinion_id>/dislike/', views.opinion_dislike, name='opinion_dislike'),
     path('registro/', views.registro, name='registro'),
 ]
