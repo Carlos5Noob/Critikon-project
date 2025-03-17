@@ -1,0 +1,160 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block title %}Opiniones mejor valoradas{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1 class="text-primary">¡Descubre las reviews mejor valoradas de la plataforma! </h1>
+    </div>
+
+    {% if top_opiniones%}
+            <div class="list-group">
+                {% for opinion in top_opiniones %}
+                    <div class="list-group-item list-group-item-action mb-3 shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                {% if opinion.user.avatar %}
+                                    <img src="{{ opinion.user.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
+                                {% endif %}
+                                <div>
+                                    <h5 class="mb-1 text-success">Review hecha por: <a href="{% url 'app:reviews_id' opinion.user.id %}">{{ opinion.user }}</a></h5>
+                                    <p class="mb-1">{{ opinion.review_text }}</p>
+                                    <small class="mb-1">Videojuego reseñado: <a href="{% url 'app:lista_opiniones' opinion.game.id %}">{{ opinion.game.title }}</a></small> <br>
+                                    <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <div>
+                                    <!-- Botón para añadir comentario -->
+                                    <button class="btn btn-outline-primary btn-sm" onclick="toggleForm('{{ opinion.id }}')">
+                                        Añadir comentario
+                                    </button>
+                                </div>
+                                <div class="ms-5">
+                                    <!-- Botón Like -->
+                                    <button class="like-btn" data-opinion-id="{{ opinion.id }}" style="background-color: white; border: none">
+                                        <img src="{% static 'resources/like.png' %}" alt="boton like" style="width: 15px; height: 15px;">
+                                    </button>
+                                    <span id="likes-count-{{ opinion.id }}">{{ opinion.likes.count }}</span>
+
+                                    <!-- Botón Dislike -->
+                                    <button class="dislike-btn" data-opinion-id="{{ opinion.id }}" style="background-color: white; border: none">
+                                        <img src="{% static 'resources/dislike.png' %}" alt="boton dislike" style="width: 15px; height: 15px;">
+                                    </button>
+                                    <span id="dislikes-count-{{ opinion.id }}">{{ opinion.dislikes.count }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Formulario de comentarios oculto por defecto -->
+                        <div id="comentario-form-{{ opinion.id }}" class="mt-3 p-2 border rounded bg-light" style="display: none;">
+                            <form method="post">
+                                {% csrf_token %}
+                                <label class="form-label" for="texto">Añadir comentario: </label>
+                                <input type="text" class="form-control" id="texto" name="texto" required>
+                                <input type="hidden" value="{{ opinion.id }}" id="id_opinion" name="id_opinion">
+                                <button type="submit" class="btn btn-secondary mt-2">Enviar</button>
+                            </form>
+                        </div>
+
+
+                        <!-- Comentarios de esta opinión -->
+                        {% if opinion.comentarios.all %}
+                            <div class="mt-3 p-2 border rounded bg-light">
+                                <h6 class="text-secondary">Comentarios:</h6>
+                                {% for comentario in opinion.comentarios.all %}
+                                    <div class="p-2 mb-2 border-bottom">
+                                        {% if comentario.user.avatar %}
+                                            <img src="{{ comentario.user.avatar.url }}" alt="avatar usuario" class="rounded-circle shadow me-3" style="width: 35px; height: 35px;">
+                                        {% endif %}
+                                        <strong>{{ comentario.user.username }}:</strong> {{ comentario.texto }}
+                                        <br>
+                                        <small class="text-muted">{{ comentario.created_at }}</small>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+</div>
+
+    <script>
+        function toggleForm(opinionId) {
+            let form = document.getElementById('comentario-form-' + opinionId);
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".like-btn").forEach(button => {
+                button.addEventListener("click", function() {
+                    let opinionId = this.getAttribute("data-opinion-id");
+                    fetch("{% url 'app:opinion_like' 0 %}".replace("0", opinionId), {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": getCSRFToken(),
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error("Error en la petición");
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById(`likes-count-${opinionId}`).textContent = data.likes;
+                        document.getElementById(`dislikes-count-${opinionId}`).textContent = data.dislikes;
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            });
+
+            document.querySelectorAll(".dislike-btn").forEach(button => {
+                button.addEventListener("click", function() {
+                    let opinionId = this.getAttribute("data-opinion-id");
+                    fetch("{% url 'app:opinion_dislike' 0 %}".replace("0", opinionId), {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": getCSRFToken(),
+                            "X-Requested-With": "XMLHttpRequest"
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error("Error en la petición");
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById(`likes-count-${opinionId}`).textContent = data.likes;
+                        document.getElementById(`dislikes-count-${opinionId}`).textContent = data.dislikes;
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            });
+});
+        function getCSRFToken() {
+            return document.querySelector("meta[name='csrf-token']").getAttribute("content");
+}
+    </script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
