@@ -200,6 +200,7 @@ def opinion_dislike(request, opinion_id):
         return JsonResponse({"likes": opinion.likes.count(), "dislikes": opinion.dislikes.count()})
     return JsonResponse({"error": "Método no permitido"}, status=405)
 
+@login_required
 def mejores_opiniones(request):
     top_opiniones = Opinion.objects.annotate(
         total_likes=Count('likes', distinct=True),
@@ -209,3 +210,26 @@ def mejores_opiniones(request):
     ).order_by('-diferencia')[:5]
 
     return render(request, 'app/top_opiniones.html', context={'top_opiniones': top_opiniones, 'usuario': request.user})
+
+@login_required
+def mis_seguidos(request):
+    usuario = request.user
+    mis_seguidos = usuario.follows.all()
+
+    return render(request, "app/mis_seguidos.html", context={'usuario': usuario, 'mis_seguidos': mis_seguidos})
+
+@login_required
+def seguir_usuario(request, user_id):
+    if request.method == "POST":
+        usuario_a_seguir = get_object_or_404(CustomUser, id=user_id)
+        usuario_actual = request.user
+
+        if usuario_a_seguir in usuario_actual.follows.all():
+            usuario_actual.follows.remove(usuario_a_seguir)
+            seguido = False
+        else:
+            usuario_actual.follows.add(usuario_a_seguir)
+            seguido = True
+
+        return JsonResponse({"seguido": seguido})
+    return JsonResponse({"error": "Método no permitido"}, status=405)
