@@ -219,6 +219,13 @@ def mis_seguidos(request):
     return render(request, "app/mis_seguidos.html", context={'usuario': usuario, 'mis_seguidos': mis_seguidos})
 
 @login_required
+def mis_seguidores(request):
+    usuario = request.user
+    mis_seguidores = CustomUser.objects.filter(follows=usuario)
+
+    return render(request, "app/mis_seguidores.html", context={'usuario': usuario, 'mis_seguidores': mis_seguidores})
+
+@login_required
 def seguir_usuario(request, user_id):
     if request.method == "POST":
         usuario_a_seguir = get_object_or_404(CustomUser, id=user_id)
