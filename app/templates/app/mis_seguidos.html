@@ -1,0 +1,35 @@
+{% extends "app/base.html" %}
+
+{% block title %}Mis seguidos{% endblock %}
+
+{% block content %}
+
+    <h1>Usuarios a los que sigo</h1>
+
+    {% if mis_seguidos %}
+
+    <ul>
+        {% for usuario in mis_seguidos %}
+
+            <li>{{ usuario.username }}</li>
+
+        {% endfor %}
+    </ul>
+
+    {% else %}
+        <p>No hay seguidos.</p>
+    {% endif %}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
