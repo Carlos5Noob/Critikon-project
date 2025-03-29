@@ -15,6 +15,7 @@ urlpatterns = [
     path('opinion/<int:opinion_id>/dislike/', views.opinion_dislike, name='opinion_dislike'),
     path('top-opinions/', views.mejores_opiniones, name='mejores_opiniones'),
     path('mis-seguidos/', views.mis_seguidos, name='mis_seguidos'),
+    path('mis-seguidores/', views.mis_seguidores, name='mis_seguidores'),
     path('seguir-usuario/<int:user_id>/', views.seguir_usuario, name='seguir_usuario'),
     path('registro/', views.registro, name='registro'),
 ]
