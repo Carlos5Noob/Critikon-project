@@ -5,6 +5,7 @@ from django.contrib.auth.models import User, AbstractUser
 
 class CustomUser(AbstractUser):
     avatar = models.ImageField()
+    follows = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='seguidos')
 
     def __str__(self):
         return self.username
