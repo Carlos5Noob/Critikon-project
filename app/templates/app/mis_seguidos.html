@@ -15,7 +15,7 @@
                         {% if usuario.avatar %}
                             <img src="{{ usuario.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
                         {% endif %}
-                        <a href="{% url 'app:reviews_id' usuario.id %}" class="text-decoration-none text-dark">{{ usuario.username }}</a>
+                        <a href="{% url 'app:usuario_id' usuario.id %}" class="text-decoration-none text-dark">{{ usuario.username }}</a>
                     </div>
                     <button class="btn btn-success boton-seguir" data-user-id="{{ usuario.id }}">
                        Seguido

@@ -22,7 +22,7 @@
                             {% endif %}
                             <div>
                                 <h5 class="mb-1 text-success">
-                                    Review de: <a href="{% url 'app:reviews_id' opinion.user.id %}">{{ opinion.user }}</a>
+                                    Review de: <a href="{% url 'app:usuario_id' opinion.user.id %}">{{ opinion.user }}</a>
                                     {% if opinion.user.id != usuario.id %}
                                         <button class="btn {% if opinion.user in usuario.follows.all %} btn-success {% else %} btn-secondary {% endif %} boton-seguir" data-user-id="{{ opinion.user.id }}">{% if opinion.user in usuario.follows.all %}Seguido {% else %} Seguir {% endif %}</button>
                                     {% endif %}

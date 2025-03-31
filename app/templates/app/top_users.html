@@ -17,7 +17,7 @@
                         <img src="{{ top_users.1.avatar.url }}" class="rounded-circle border border-light"
                              style="width: 90px; height: 90px; position: absolute; top: -45px; left: 50%; transform: translateX(-50%);">
                     {% endif %}
-                    <h4 class="mt-5"><a style="text-decoration: none; color: black" href="{% url 'app:reviews_id' top_users.1.id %}">{{ top_users.1.username }}</a></h4>
+                    <h4 class="mt-5"><a style="text-decoration: none; color: black" href="{% url 'app:usuario_id' top_users.1.id %}">{{ top_users.1.username }}</a></h4>
                     <p class="mb-1 fs-5">📝 {{ top_users.1.num_opiniones }} | 💬 {{ top_users.1.num_comentarios }}</p>
                     <h6>Total contribuciones: {{ top_users.1.total_contribuciones }}</h6>
                     <strong class="fs-3">🥈 #2</strong>
@@ -31,7 +31,7 @@
                         <img src="{{ top_users.0.avatar.url }}" class="rounded-circle border border-dark"
                              style="width: 110px; height: 110px; position: absolute; top: -55px; left: 50%; transform: translateX(-50%);">
                     {% endif %}
-                    <h3 class="mt-5 fw-bold"><a style="text-decoration: none; color: black" href="{% url 'app:reviews_id' top_users.0.id %}">{{ top_users.0.username }}</a></h3>
+                    <h3 class="mt-5 fw-bold"><a style="text-decoration: none; color: black" href="{% url 'app:usuario_id' top_users.0.id %}">{{ top_users.0.username }}</a></h3>
                     <p class="mb-1 fs-4">📝 {{ top_users.0.num_opiniones }} | 💬 {{ top_users.0.num_comentarios }}</p>
                     <h6>Total contribuciones: {{ top_users.0.total_contribuciones }}</h6>
                     <strong class="fs-2">🏆 #1</strong>
@@ -45,7 +45,7 @@
                         <img src="{{ top_users.2.avatar.url }}" class="rounded-circle border border-light"
                              style="width: 80px; height: 80px; position: absolute; top: -40px; left: 50%; transform: translateX(-50%);">
                     {% endif %}
-                    <h4 class="mt-5"><a style="text-decoration: none; color: black" href="{% url 'app:reviews_id' top_users.2.id %}">{{ top_users.2.username }}</a></h4>
+                    <h4 class="mt-5"><a style="text-decoration: none; color: black" href="{% url 'app:usuario_id' top_users.2.id %}">{{ top_users.2.username }}</a></h4>
                     <p class="mb-1 fs-5">📝 {{ top_users.2.num_opiniones }} | 💬 {{ top_users.2.num_comentarios }}</p>
                     <h6>Total contribuciones: {{ top_users.2.total_contribuciones }}</h6>
                     <strong class="fs-3">🥉 #3</strong>
