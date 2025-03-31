@@ -1,0 +1,86 @@
+{% extends "app/base.html" %}
+
+{% block title %}Usuarios de la plataforma{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="text-center text-primary mb-4">¡Descubre a otros usuarios!</h1>
+
+    {% if usuarios %}
+        <!-- Buscador por nombre -->
+        <form method="GET" class="row g-3d-flex justify-content-center mb-4">
+            <div class="mb-5">
+                <label class="form-label" for="buscar">Filtrar por nombre:</label>
+                <input type="text" id="buscar" name="buscar" class="form-control" placeholder="Buscar...">
+            </div>  
+        </form>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for user in usuarios %}
+                <div class="col">
+                    <div class="card shadow-sm h-100">
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" class="card-img-top rounded-circle mx-auto mt-3" alt="avatar usuario" style="width: 100px; height: 100px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-success"><a href="{% url 'app:usuario_id' user.id %}">{{ user.username }}</a></h5>
+                            <p class="card-text text-muted">Fecha creada desde: {{ user.date_joined }}</p>
+                            <p class="card-text text-dark">Número de reviews: <span class="badge bg-primary">{{ user.opinions.count }}</span></p>
+                            <p class="card-text text-dark">Número de comentarios: <span class="badge bg-secondary">{{ user.comentarios.count }}</span></p>
+                            <button class="btn {% if user in usuario.follows.all %} btn-success {% else %} btn-secondary {% endif %} boton-seguir" data-user-id="{{ user.id }}">{% if user in usuario.follows.all %}Seguido {% else %} Seguir {% endif %}</button>
+                            <a href="{% url 'app:reviews_id' user.id %}" class="btn btn-outline-primary">Ver reviews de este usuario</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No hay usuarios registrados en la plataforma o no se encuentran resultados.</p>
+        <div class="text-center mb-3">
+            <a href="{% url 'app:usuarios' %}"><button class="btn btn-warning">Pincha aquí para volver a ver todos los usuarios</button></a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    
+    document.querySelectorAll(".boton-seguir").forEach(boton => {
+            boton.addEventListener("click", function() {
+                let userId = this.getAttribute("data-user-id");
+
+                fetch("{% url 'app:seguir_usuario' 0 %}".replace("0", userId), {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCSRFToken(),
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.seguido) {
+                        // Seleccionar TODOS los botones con el mismo data-user-id
+                        document.querySelectorAll(`.boton-seguir[data-user-id='${userId}']`).forEach(btn => {
+                            btn.textContent = "Seguido";
+                            btn.classList.remove("btn-secondary");
+                            btn.classList.add("btn-success");
+                        });
+                    } else {
+                        document.querySelectorAll(`.boton-seguir[data-user-id='${userId}']`).forEach(btn => {
+                            btn.textContent = "Seguir";
+                            btn.classList.remove("btn-success");
+                            btn.classList.add("btn-secondary");
+                        });
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        });
+
+        function getCSRFToken() {
+            return document.querySelector("meta[name='csrf-token']").getAttribute("content");
+        }
+
+</script>
+
+{% endblock %}

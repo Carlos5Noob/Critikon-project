@@ -1,0 +1,69 @@
+{% extends "app/base.html" %}
+
+{% block title %}Perfil de {{ user.username }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+            <h1 class="card-title text-primary mb-4">Perfil de {{ user.username }}</h1>
+
+            {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" class="img-fluid rounded-circle border border-light mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="avatar usuario">
+            {% endif %}
+
+            <p class="text-muted">Fecha de registro: {{ user.date_joined }}</p>
+            <p class="text-dark">Número de reviews: <span class="badge bg-primary">{{ user.opinions.count }}</span></p>
+            <p class="text-dark">Número de comentarios: <span class="badge bg-secondary">{{ user.comentarios.count }}</span></p>
+
+            <div class="d-flex justify-content-center gap-2 mt-3">
+                {% if user.id != usuario.id %}
+                <button class="btn {% if user in usuario.follows.all %} btn-success {% else %} btn-secondary {% endif %} boton-seguir" data-user-id="{{ user.id }}">
+                    {% if user in usuario.follows.all %}Seguido{% else %}Seguir{% endif %}
+                </button>
+                {% endif %}
+                <a href="{% url 'app:reviews_id' user.id %}" class="btn btn-outline-primary">Ver reviews de este usuario</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll(".boton-seguir").forEach(boton => {
+        boton.addEventListener("click", function() {
+            let userId = this.getAttribute("data-user-id");
+
+            fetch("{% url 'app:seguir_usuario' 0 %}".replace("0", userId), {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCSRFToken(),
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.seguido) {
+                    document.querySelectorAll(`.boton-seguir[data-user-id='${userId}']`).forEach(btn => {
+                        btn.textContent = "Seguido";
+                        btn.classList.remove("btn-secondary");
+                        btn.classList.add("btn-success");
+                    });
+                } else {
+                    document.querySelectorAll(`.boton-seguir[data-user-id='${userId}']`).forEach(btn => {
+                        btn.textContent = "Seguir";
+                        btn.classList.remove("btn-success");
+                        btn.classList.add("btn-secondary");
+                    });
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    });
+
+    function getCSRFToken() {
+        return document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    }
+</script>
+
+{% endblock %}
