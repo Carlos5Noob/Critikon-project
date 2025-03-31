@@ -240,3 +240,28 @@ def seguir_usuario(request, user_id):
 
         return JsonResponse({"seguido": seguido})
     return JsonResponse({"error": "Método no permitido"}, status=405)
+
+
+class Usuarios(LoginRequiredMixin, ListView):
+    template_name = "app/usuarios.html"
+    context_object_name = 'usuarios'
+    model = CustomUser
+
+    def get_queryset(self):
+        queryset = CustomUser.objects.exclude(id=self.request.user.id) 
+        
+        busqueda = self.request.GET.get("buscar")
+        if busqueda:
+            queryset = queryset.filter(username__icontains=busqueda)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["usuario"] = self.request.user
+        return context
+
+@login_required
+def usuario_id(request, user_id):
+    usuario_id = get_object_or_404(CustomUser, id=user_id)
+
+    return render(request, 'app/usuario_id.html', context={'user': usuario_id, 'usuario': request.user})
