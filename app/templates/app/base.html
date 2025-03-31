@@ -8,6 +8,7 @@
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'css/transform-hover.css' %}">
     <link rel="stylesheet" href="{% static 'css/modo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animacion.css' %}">
     <style>
         .hover-bg:hover {
             background-color: #f8f9fa;
@@ -24,6 +25,9 @@
             <button id="dark-mode-toggle">🌙</button>
         </div>
         <div class="d-flex align-items-center gap-3 me-5 position-relative">
+            <a href="{% url 'app:usuarios' %}" class="text-decoration-none text-white me-5">
+                Usuarios
+            </a>
             <a href="{% url 'app:top_users' %}" class="text-decoration-none text-white me-5">
                 Usuarios TOP de la comunidad
             </a>
@@ -67,6 +71,8 @@
     <footer class="text-center bg-dark text-white p-4">
         <p>&copy; 2025 Critikon</p>
         <p>Todos los derechos reservados</p>
+        <p>Repositorio del proyecto: <a href="https://github.com/Carlos5Noob/Critikon-project">aquí</a></p>
+        <p>Hecho con ♥️ por <a style="color: greenyellow; text-decoration: none;" href="https://carlos5noob.github.io/Portfolio-Carlos_Chacon/">Carlos Chacón</a></p>
     </footer>
 
 <script>
