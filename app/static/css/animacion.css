@@ -1,0 +1,13 @@
+.like-btn, .dislike-btn {
+    position: relative;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        transform: rotate(10deg) scale(1.1); 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+        transform: rotate(-10deg) scale(0.9); 
+    }
+}
