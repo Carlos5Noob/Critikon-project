@@ -1,0 +1,76 @@
+body {
+    background-color: white;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+.theme-switch {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background-color: #dee2e6;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.3s ease;
+    overflow: hidden;
+}
+
+.theme-switch .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    z-index: 3;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.theme-switch .sun {
+    left: 10px;
+    color: #f39c12;
+    opacity: 1;
+}
+
+.theme-switch .moon {
+    right: 10px;
+    color: #f1f1f1;
+    opacity: 0;
+    z-index: 3;
+}
+
+.theme-switch .switch-handle {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 50%;
+    transition: left 0.3s ease;
+    z-index: 2;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .theme-switch {
+    background-color: #222;
+}
+
+body.dark-mode .theme-switch .sun {
+    opacity: 0;
+}
+
+body.dark-mode .theme-switch .moon {
+    opacity: 1;
+    color: mediumpurple;
+}
+
+body.dark-mode .theme-switch .switch-handle {
+    left: 33px;
+}
