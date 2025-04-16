@@ -23,6 +23,12 @@
                                 <small class="mb-1">Videojuego reseñado: <a href="{% url 'app:lista_opiniones' opinion.game.id %}">{{ opinion.game.title }}</a></small> <br>
                                 <small class="text-muted">⭐ {{ opinion.rating }} | {{ opinion.created_at }}</small>
                             </div>
+                            <div class="ms-auto">
+                                <form class="form-eliminar" action="{% url 'app:eliminar_resena' opinion.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger">Eliminar reseña</button>
+                                </form>
+                            </div>
                         </div>
 
 
@@ -53,6 +59,8 @@
 
     </div>
 
+
+    
 {% endblock %}
 
 
