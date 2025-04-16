@@ -19,5 +19,6 @@ urlpatterns = [
     path('mis-seguidos/', views.mis_seguidos, name='mis_seguidos'),
     path('mis-seguidores/', views.mis_seguidores, name='mis_seguidores'),
     path('seguir-usuario/<int:user_id>/', views.seguir_usuario, name='seguir_usuario'),
+    path('eliminar-resena/<int:opinion_id>/', views.eliminar_resena, name='eliminar_resena'),
     path('registro/', views.registro, name='registro'),
 ]

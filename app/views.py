@@ -265,3 +265,10 @@ def usuario_id(request, user_id):
     usuario_id = get_object_or_404(CustomUser, id=user_id)
 
     return render(request, 'app/usuario_id.html', context={'user': usuario_id, 'usuario': request.user})
+
+@login_required
+def eliminar_resena(request, opinion_id):
+    if request.method == "POST":
+        review = get_object_or_404(Opinion, id=opinion_id)
+        review.delete()
+        return redirect('/critikon/mis-reviews')
