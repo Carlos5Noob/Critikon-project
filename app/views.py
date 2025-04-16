@@ -272,3 +272,15 @@ def eliminar_resena(request, opinion_id):
         review = get_object_or_404(Opinion, id=opinion_id)
         review.delete()
         return redirect('/critikon/mis-reviews')
+
+@login_required
+def modificar_resena(request, opinion_id):
+    review = get_object_or_404(Opinion, id=opinion_id)
+
+    if request.method == "POST":
+        review.review_text = request.POST.get("nueva_opinion")
+        review.save()
+
+        return render(request, 'app/modificar_review.html', context={'usuario': request.user, 'mensaje': "Reseña modificada correctamente", 'opinion': review})
+
+    return render(request, 'app/modificar_review.html', context={'usuario': request.user, 'opinion': review})

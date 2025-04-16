@@ -20,5 +20,6 @@ urlpatterns = [
     path('mis-seguidores/', views.mis_seguidores, name='mis_seguidores'),
     path('seguir-usuario/<int:user_id>/', views.seguir_usuario, name='seguir_usuario'),
     path('eliminar-resena/<int:opinion_id>/', views.eliminar_resena, name='eliminar_resena'),
+    path('modificar-resena/<int:opinion_id>/', views.modificar_resena, name='modificar_resena'),
     path('registro/', views.registro, name='registro'),
 ]
