@@ -6,9 +6,25 @@ from django.contrib.auth.models import User, AbstractUser
 class CustomUser(AbstractUser):
     avatar = models.ImageField()
     follows = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='seguidos')
+    rol = models.CharField(max_length=50, blank=True, null=True, default="Crítico Novato")
 
     def __str__(self):
         return self.username
+
+    def asignar_rol(self):
+        """Método que actualiza el rol del usuario dependiendo del número de reviews que haya hecho."""
+        total_reviews = self.opinions.count()
+        if total_reviews >= 50:
+            self.rol = "Leyenda del Review"
+        elif total_reviews >= 30:
+            self.rol = "Experto en Opiniones"
+        elif total_reviews >= 15:
+            self.rol = "Crítico Avanzado"
+        elif total_reviews >= 5:
+            self.rol = "Reseñador Aficionado"
+        else:
+            self.rol = "Crítico Novato"
+        self.save()
 
 class Videojuego(models.Model):
     SHOOTER = 'Shooter'
@@ -67,6 +83,7 @@ class Opinion(models.Model):
         """Sobrescribe el método save para actualizar el rating del juego cuando se guarda la opinión."""
         super().save(*args, **kwargs)  # Guarda la opinión normalmente
         self.game.update_rating()  # Actualiza el rating del juego después de guardar la opinión
+        self.user.asignar_rol() # Actualiza el rol del usuario
 
 class Comentario(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comentarios")
