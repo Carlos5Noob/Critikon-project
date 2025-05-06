@@ -40,13 +40,13 @@
                                 </div>
                                 <div class="ms-5">
                                     <!-- Botón Like -->
-                                    <button class="like-btn" data-opinion-id="{{ opinion.id }}" style="background-color: white; border: none">
+                                    <button class="like-btn" data-opinion-id="{{ opinion.id }}" data-like-url="{% url 'app:opinion_like' opinion.id %}" style="background-color: white; border: none">
                                         <img src="{% static 'resources/like.png' %}" alt="boton like" style="width: 15px; height: 15px;">
                                     </button>
                                     <span id="likes-count-{{ opinion.id }}">{{ opinion.likes.count }}</span>
 
                                     <!-- Botón Dislike -->
-                                    <button class="dislike-btn" data-opinion-id="{{ opinion.id }}" style="background-color: white; border: none">
+                                    <button class="dislike-btn" data-opinion-id="{{ opinion.id }}" data-dislike-url="{% url 'app:opinion_dislike' opinion.id %}" style="background-color: white; border: none">
                                         <img src="{% static 'resources/dislike.png' %}" alt="boton dislike" style="width: 15px; height: 15px;">
                                     </button>
                                     <span id="dislikes-count-{{ opinion.id }}">{{ opinion.dislikes.count }}</span>
@@ -132,51 +132,6 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".like-btn").forEach(button => {
-                button.addEventListener("click", function() {
-                    let opinionId = this.getAttribute("data-opinion-id");
-                    fetch("{% url 'app:opinion_like' 0 %}".replace("0", opinionId), {
-                        method: "POST",
-                        headers: {
-                            "X-CSRFToken": getCSRFToken(),
-                            "X-Requested-With": "XMLHttpRequest"
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) throw new Error("Error en la petición");
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById(`likes-count-${opinionId}`).textContent = data.likes;
-                        document.getElementById(`dislikes-count-${opinionId}`).textContent = data.dislikes;
-                    })
-                    .catch(error => console.error("Error:", error));
-                });
-            });
-
-            document.querySelectorAll(".dislike-btn").forEach(button => {
-                button.addEventListener("click", function() {
-                    let opinionId = this.getAttribute("data-opinion-id");
-                    fetch("{% url 'app:opinion_dislike' 0 %}".replace("0", opinionId), {
-                        method: "POST",
-                        headers: {
-                            "X-CSRFToken": getCSRFToken(),
-                            "X-Requested-With": "XMLHttpRequest"
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) throw new Error("Error en la petición");
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById(`likes-count-${opinionId}`).textContent = data.likes;
-                        document.getElementById(`dislikes-count-${opinionId}`).textContent = data.dislikes;
-                    })
-                    .catch(error => console.error("Error:", error));
-                });
-            });
-});
         function getCSRFToken() {
             return document.querySelector("meta[name='csrf-token']").getAttribute("content");
 }
