@@ -19,7 +19,7 @@
 
             <div class="d-flex justify-content-center gap-2 mt-3">
                 {% if user.id != usuario.id %}
-                <button class="btn {% if user in usuario.follows.all %} btn-success {% else %} btn-secondary {% endif %} boton-seguir" data-user-id="{{ user.id }}">
+                <button class="btn {% if user in usuario.follows.all %} btn-success {% else %} btn-secondary {% endif %} boton-seguir" data-user-id="{{ user.id }}" data-url="{% url 'app:seguir_usuario' user.id %}">
                     {% if user in usuario.follows.all %}Seguido{% else %}Seguir{% endif %}
                 </button>
                 {% endif %}
@@ -28,40 +28,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.querySelectorAll(".boton-seguir").forEach(boton => {
-        boton.addEventListener("click", function() {
-            let userId = this.getAttribute("data-user-id");
-
-            fetch("{% url 'app:seguir_usuario' 0 %}".replace("0", userId), {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCSRFToken(),
-                    "X-Requested-With": "XMLHttpRequest"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.seguido) {
-                    document.querySelectorAll(`.boton-seguir[data-user-id='${userId}']`).forEach(btn => {
-                        btn.textContent = "Seguido";
-                        btn.classList.remove("btn-secondary");
-                        btn.classList.add("btn-success");
-                    });
-                } else {
-                    document.querySelectorAll(`.boton-seguir[data-user-id='${userId}']`).forEach(btn => {
-                        btn.textContent = "Seguir";
-                        btn.classList.remove("btn-success");
-                        btn.classList.add("btn-secondary");
-                    });
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        });
-    });
-
-
-</script>
 
 {% endblock %}
