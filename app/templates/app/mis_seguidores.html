@@ -10,14 +10,14 @@
     {% if mis_seguidores %}
         <div class="list-group">
             {% for usuario in mis_seguidores %}
-                <div class="list-group-item d-flex justify-content-between align-items-center py-3">
-                    <div class="d-flex align-items-center">
+                <div class="list-group-item d-flex justify-content-between align-items-center py-3 flex-column flex-md-row">
+                    <div class="d-flex align-items-center mb-3 mb-md-0">
                         {% if usuario.avatar %}
                             <img src="{{ usuario.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
                         {% endif %}
                         <a href="{% url 'app:usuario_id' usuario.id %}" class="text-decoration-none text-dark">{{ usuario.username }}</a>
                     </div>
-                    <button class="btn {% if usuario in request.user.follows.all %} btn-success {% else %} btn-secondary {% endif %} boton-seguir" data-user-id="{{ usuario.id }}" data-url="{% url 'app:seguir_usuario' usuario.id %}">{% if usuario in request.user.follows.all %}Seguido {% else %} Seguir {% endif %}</button>
+                    <button class="btn {% if usuario in request.user.follows.all %} btn-success {% else %} btn-secondary {% endif %} boton-seguir mt-2 mt-md-0" data-user-id="{{ usuario.id }}" data-url="{% url 'app:seguir_usuario' usuario.id %}">{% if usuario in request.user.follows.all %}Seguido {% else %} Seguir {% endif %}</button>
                 </div>
             {% endfor %}
         </div>

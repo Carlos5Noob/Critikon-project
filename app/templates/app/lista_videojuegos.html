@@ -4,46 +4,42 @@
 
 {% block content %}
 
+<!-- Filtros -->
+<form method="GET" class="row g-3 d-flex justify-content-center mb-4">
+    <div class="col-12 col-md-4">
+        <label class="form-label">Filtrar por género:</label>
+        <select name="genero" class="form-select" onchange="this.form.submit()">
+            <option value="">Todos</option>
+            {% for key, value in generos %}
+                <option value="{{ key }}" {% if request.GET.genero == key %}selected{% endif %}>
+                    {{ value }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
 
-    <!-- Filtros -->
-    <form method="GET" class="row g-3d-flex justify-content-center mb-4">
-        <div class="col-md-4">
-            <label class="form-label">Filtrar por género:</label>
-            <select name="genero" class="form-select" onchange="this.form.submit()">
-                <option value="">Todos</option>
-                {% for key, value in generos %}
-                    <option value="{{ key }}" {% if request.GET.genero == key %}selected{% endif %}>
-                        {{ value }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
+    <div class="col-12 col-md-4">
+        <label class="form-label">Ordenar por:</label>
+        <select name="orden" class="form-select" onchange="this.form.submit()">
+            <option value="">Ninguno</option>
+            <option value="title" {% if request.GET.orden == "title" %}selected{% endif %}>Título (A-Z)</option>
+            <option value="-title" {% if request.GET.orden == "-title" %}selected{% endif %}>Título (Z-A)</option>
+            <option value="release_date" {% if request.GET.orden == "release_date" %}selected{% endif %}>Fecha (Asc.)</option>
+            <option value="-release_date" {% if request.GET.orden == "-release_date" %}selected{% endif %}>Fecha (Desc.)</option>
+        </select>
+    </div>
 
-        <div class="col-md-4">
-            <label class="form-label">Ordenar por:</label>
-            <select name="orden" class="form-select" onchange="this.form.submit()">
-                <option value="">Ninguno</option>
-                <option value="title" {% if request.GET.orden == "title" %}selected{% endif %}>Título (A-Z)</option>
-                <option value="-title" {% if request.GET.orden == "-title" %}selected{% endif %}>Título (Z-A)</option>
-                <option value="release_date" {% if request.GET.orden == "release_date" %}selected{% endif %}>Fecha (Asc.)</option>
-                <option value="-release_date" {% if request.GET.orden == "-release_date" %}selected{% endif %}>Fecha (Desc.)</option>
-            </select>
-        </div>
+    <div class="col-12 col-md-4">
+        <label class="form-label" for="buscar">Buscar:</label>
+        <input type="text" id="buscar" name="buscar" class="form-control" placeholder="Buscar...">
+    </div>
+</form>
 
-        <div class="col-md-4">
-            <label class="form-label" for="buscar">Buscar:</label>
-            <input type="text" id="buscar" name="buscar" class="form-control" placeholder="Buscar...">
-        </div>
-    </form>
-
-
-
-
-    <div class="container mt-4">
+<!-- Contenido principal -->
+<div class="container mt-4">
     <div class="row">
         {% for videojuego in videojuegos %}
-
-            <div class="col-md-4 mb-4 transform-hover">
+            <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
                 <div class="card shadow-sm">
                     <img src="{{ videojuego.image.url }}" class="card-img-top" alt="Portada de {{ videojuego.title }}" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
@@ -51,7 +47,9 @@
                         <p class="card-text text-dark"><strong>Género:</strong> {{ videojuego.genero }}</p>
                         <p class="card-text text-dark"><strong>Fecha de lanzamiento:</strong> {{ videojuego.release_date }}</p>
                         <p class="card-text text-dark"><strong>Rating:</strong> ⭐{{ videojuego.rating|floatformat:2 }}</p>
-                        <a href="{% url 'app:lista_opiniones' videojuego.id %}"><button class="btn btn-primary">Ver reviews</button></a>
+                        <a href="{% url 'app:lista_opiniones' videojuego.id %}">
+                            <button class="btn btn-primary">Ver reviews</button>
+                        </a>
                     </div>
                 </div>
             </div>

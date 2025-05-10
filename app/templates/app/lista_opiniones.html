@@ -8,15 +8,15 @@
 <div class="container mt-4">
     <div class="text-center mb-4">
         <h1 class="text-primary">Reviews sobre {{ videojuego.title }}</h1>
-        <img src="{{ videojuego.image.url }}" class="img-fluid rounded shadow" style="max-width: 640px;" alt="Portada de {{ videojuego.title }}">
+        <img src="{{ videojuego.image.url }}" class="img-fluid rounded shadow" style="max-width: 640px" alt="Portada de {{ videojuego.title }}">
     </div>
 
     {% if opiniones %}
         <div class="list-group">
             {% for opinion in opiniones %}
                 <div class="list-group-item list-group-item-action mb-3 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                        <div class="d-flex align-items-center mb-3 mb-md-0">
                             {% if opinion.user.avatar %}
                                 <img src="{{ opinion.user.avatar.url }}" alt="avatar" class="rounded-circle shadow me-3" style="width: 50px; height: 50px;">
                             {% endif %}
@@ -33,13 +33,10 @@
                         </div>
 
                         <div class="d-grid gap-2">
-                            <div>
-                                <!-- Botón para añadir comentario -->
-                                <button class="btn btn-outline-primary btn-sm" onclick="toggleForm('{{ opinion.id }}')">
-                                    Añadir comentario
-                                </button>
-                            </div>
-                            <div class="ms-5">
+                            <button class="btn btn-outline-primary btn-sm" onclick="toggleForm('{{ opinion.id }}')">
+                                Añadir comentario
+                            </button>
+                            <div class="d-flex gap-2 mt-2 mt-md-0">
                                 <!-- Botón Like -->
                                 <button class="like-btn" data-opinion-id="{{ opinion.id }}" data-like-url="{% url 'app:opinion_like' opinion.id %}" style="background-color: white; border: none">
                                     <img src="{% static 'resources/like.png' %}" alt="boton like" style="width: 15px; height: 15px;">
@@ -89,7 +86,7 @@
         <p class="text-center text-muted">No hay reviews sobre este videojuego.</p>
     {% endif %}
 
-    <div class="text-center">
+    <div class="text-center mt-4">
         <a href="{% url 'app:crear_review' videojuego.id %}">
             <button class="mb-2 btn btn-primary">Crear review para este videojuego</button>
         </a>
