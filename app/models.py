@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, AbstractUser
 
 
 class CustomUser(AbstractUser):
-    avatar = models.ImageField()
+    avatar = models.ImageField(default='usuario-por-defecto.png', blank=True)
     follows = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='seguidos')
     rol = models.CharField(max_length=50, blank=True, null=True, default="Crítico Novato")
 
