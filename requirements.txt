@@ -5,3 +5,4 @@ django-bootstrap-v5
 djangorestframework
 ipdb
 httpie
+psycopg2==2.9.10
