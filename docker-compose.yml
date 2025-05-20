@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    # image: carlosjr5/nosequé
     container_name: django_web
     ports:
       - "8000:8000"
