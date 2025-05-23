@@ -4,6 +4,15 @@ from django.contrib.auth.models import User, AbstractUser
 
 
 class CustomUser(AbstractUser):
+    """
+    Clase CustomUser, extiende de AbstractUser.
+
+    avatar: Image
+    follows: Relation
+    rol: string
+
+    asignar_rol: actualiza el rol del usuario
+    """
     avatar = models.ImageField(default='usuario-por-defecto.png', blank=True)
     follows = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='seguidos')
     rol = models.CharField(max_length=50, blank=True, null=True, default="Crítico Novato")
@@ -27,6 +36,17 @@ class CustomUser(AbstractUser):
         self.save()
 
 class Videojuego(models.Model):
+    """
+    Clase Videojuego.
+
+    title: string
+    release_date: Date
+    rating: float
+    image: Image
+    genero: string
+
+    update_rating: actualiza el rating del videojuego
+    """
     SHOOTER = 'Shooter'
     RPG = 'RPG'
     MMO = 'MMO'
@@ -65,6 +85,19 @@ class Videojuego(models.Model):
 
 
 class Opinion(models.Model):
+    """
+    Clase Opinion.
+
+    user: Relation
+    game: Relation
+    review_text: string
+    rating: int (1 al 5)
+    created_at: DateTime
+    likes: Relation
+    dislikes: Relation
+
+    save: al guardar un objeto tipo Opinion, llama al update_rating y asignar_rol de los campos Videojuego y CustomUser, respectivamente.
+    """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="opinions")
     game = models.ForeignKey(Videojuego, on_delete=models.CASCADE, related_name="opinions")
     review_text = models.TextField()
@@ -86,6 +119,14 @@ class Opinion(models.Model):
         self.user.asignar_rol() # Actualiza el rol del usuario
 
 class Comentario(models.Model):
+    """
+    Clase Comentario.
+
+    user: Relation
+    opinion: Relation
+    texto: string
+    created_at: DateTime
+    """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="comentarios")
     opinion = models.ForeignKey(Opinion, on_delete=models.CASCADE, related_name="comentarios")
     texto = models.TextField()

@@ -22,10 +22,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='inicio.html'), name='inicio'),
-    path('admin/', admin.site.urls),
-    path('critikon/', include('app.urls')),
-    path('api/', include('api.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('', TemplateView.as_view(template_name='inicio.html'), name='inicio'), # template de inicio '/'
+    path('admin/', admin.site.urls), # urls del admin page
+    path('critikon/', include('app.urls')), # urls de la aplicación
+    path('api/', include('api.urls')), # urls de la api
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')), # necesario para el login de la api
+    path('accounts/', include('django.contrib.auth.urls')), # rutas para el login, logout y registration
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -13,6 +13,10 @@ from .models import Videojuego, Opinion, CustomUser, Comentario
 # Create your views here.
 
 class ListVideogames(LoginRequiredMixin, ListView):
+    """
+    View de lista de videojuegos
+    El queryset devuelve un objeto u otro dependiendo del filter del html.
+    """
     template_name = "app/lista_videojuegos.html"
     context_object_name = 'videojuegos'
     model = Videojuego
@@ -52,6 +56,9 @@ class ListVideogames(LoginRequiredMixin, ListView):
 
 @login_required
 def lista_opiniones(request, game_id):
+    """
+    View de lista de opiniones por game_id
+    """
     videojuego = get_object_or_404(Videojuego, id=game_id)
     opiniones = Opinion.objects.filter(game_id=game_id).prefetch_related("comentarios")
 
@@ -71,6 +78,10 @@ def lista_opiniones(request, game_id):
 
 @login_required
 def lista_opiniones_recientes(request):
+    """
+    View de lista de opiniones recientes.
+    Recoge las 10 más recientes guardadas en la bbdd
+    """
     opiniones = Opinion.objects.order_by("-created_at")[:10]
     usuario = request.user
 
@@ -84,22 +95,11 @@ def lista_opiniones_recientes(request):
 
     return render(request, 'app/lista_opiniones_recientes.html', context={"opiniones": opiniones, "usuario": usuario})
 
-# vista basada en clase que he comentado para poder hacer el request.method.POST. Función nueva la de arriba
-# class ListOpinionsRecents(LoginRequiredMixin, ListView):
-#     template_name = "app/lista_opiniones_recientes.html"
-#     context_object_name = 'opiniones'
-#     model = Opinion
-#
-#     def get_queryset(self):
-#         return Opinion.objects.order_by("-created_at")[:10]
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["usuario"] = self.request.user
-#         return context
-
 @login_required
 def crear_review(request, game_id):
+    """
+    View de crear review de videojuego
+    """
     if request.method == "POST":
         user = request.user
         game = Videojuego.objects.get(id=game_id)
@@ -115,6 +115,9 @@ def crear_review(request, game_id):
 
 
 def registro(request):
+    """
+    View de registro de usuario
+    """
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
@@ -128,6 +131,10 @@ def registro(request):
 
 @login_required
 def mis_reviews(request):
+    """
+    View de mis reviews de videojuego
+    Filtra por el usuario logueado
+    """
     usuario = request.user
     opiniones = Opinion.objects.filter(user_id=usuario.id)
 
@@ -135,6 +142,10 @@ def mis_reviews(request):
 
 @login_required
 def reviews_id(request, user_id):
+    """
+    View de reviews de videojuego de un usuario
+    Filtra por id de usuario
+    """
     usuario_nombre = CustomUser.objects.get(id=user_id)
     opiniones = Opinion.objects.filter(user_id=user_id)
 
@@ -150,6 +161,10 @@ def reviews_id(request, user_id):
 
 @login_required
 def top_users(request):
+    """
+    View de lista de los 3 usuarios más activos de la plataforma.
+    Depende del número de opiniones + comentarios
+    """
     top_users = CustomUser.objects.annotate(
         num_opiniones=Count('opinions', distinct=True),
         num_comentarios=Count('comentarios', distinct=True),
@@ -161,6 +176,9 @@ def top_users(request):
 
 @login_required
 def cambiar_avatar(request):
+    """
+    View de cambiar avatar
+    """
     if request.method == "POST":
         foto = request.FILES.get("foto")
         request.user.avatar = foto
@@ -172,6 +190,10 @@ def cambiar_avatar(request):
 
 @login_required
 def opinion_like(request, opinion_id):
+    """
+    View de opinion like.
+    Uso de peticiones ajax
+    """
     if request.method == "POST":
         opinion = get_object_or_404(Opinion, id=opinion_id)
         user = request.user
@@ -187,6 +209,10 @@ def opinion_like(request, opinion_id):
 
 @login_required
 def opinion_dislike(request, opinion_id):
+    """
+    View de opinion dislike.
+    Uso de peticiones ajax
+    """
     if request.method == "POST":
         opinion = get_object_or_404(Opinion, id=opinion_id)
         user = request.user
@@ -202,6 +228,10 @@ def opinion_dislike(request, opinion_id):
 
 @login_required
 def mejores_opiniones(request):
+    """
+    View de mejores opiniones.
+    Filtra por 5 mejores dependiendo de los likes/dislikes
+    """
     top_opiniones = Opinion.objects.annotate(
         total_likes=Count('likes', distinct=True),
         total_dislikes=Count('dislikes', distinct=True),
@@ -213,6 +243,10 @@ def mejores_opiniones(request):
 
 @login_required
 def mis_seguidos(request):
+    """
+    View de mis seguidos.
+    Filtra por el usuario logueado
+    """
     usuario = request.user
     mis_seguidos = usuario.follows.all()
 
@@ -220,6 +254,10 @@ def mis_seguidos(request):
 
 @login_required
 def mis_seguidores(request):
+    """
+    View de mis seguidores.
+    Filtra por el usuario logueado
+    """
     usuario = request.user
     mis_seguidores = CustomUser.objects.filter(follows=usuario)
 
@@ -227,6 +265,10 @@ def mis_seguidores(request):
 
 @login_required
 def seguir_usuario(request, user_id):
+    """
+    View de seguir un usuario.
+    Uso de peticiones ajax
+    """
     if request.method == "POST":
         usuario_a_seguir = get_object_or_404(CustomUser, id=user_id)
         usuario_actual = request.user
@@ -243,6 +285,9 @@ def seguir_usuario(request, user_id):
 
 
 class Usuarios(LoginRequiredMixin, ListView):
+    """
+    View de usuarios registrados en la plataforma.
+    """
     template_name = "app/usuarios.html"
     context_object_name = 'usuarios'
     model = CustomUser
@@ -262,12 +307,18 @@ class Usuarios(LoginRequiredMixin, ListView):
 
 @login_required
 def usuario_id(request, user_id):
+    """
+    View de detalles de usuario por id.
+    """
     usuario_id = get_object_or_404(CustomUser, id=user_id)
 
     return render(request, 'app/usuario_id.html', context={'user': usuario_id, 'usuario': request.user})
 
 @login_required
 def eliminar_resena(request, opinion_id):
+    """
+    View de eliminar reseña.
+    """
     if request.method == "POST":
         review = get_object_or_404(Opinion, id=opinion_id)
         review.delete()
@@ -275,6 +326,9 @@ def eliminar_resena(request, opinion_id):
 
 @login_required
 def modificar_resena(request, opinion_id):
+    """
+    View de modificar reseña.
+    """
     review = get_object_or_404(Opinion, id=opinion_id)
 
     if request.method == "POST":
