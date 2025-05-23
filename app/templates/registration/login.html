@@ -1,23 +1,23 @@
 {% extends "registration/base.html" %}
 
-{% block title %}Iniciar sesión{% endblock %}
+{% block title %}Iniciar sesión | Critikon{% endblock %}
 
 {% block content %}
 
 {% if form.errors %}
 <div class="alert alert-danger" role="alert">
-    <strong>Error:</strong> Your username and password didn't match. Please try again.
+    <strong>Error:</strong> Tu nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.
 </div>
 {% endif %}
 
 {% if next %}
     {% if user.is_authenticated %}
     <div class="alert alert-warning" role="alert">
-        <strong>Access Denied:</strong> Your account doesn't have access to this page. Please login with an account that has access.
+        <strong>Acceso denegado:</strong> Tu cuenta no tiene acceso a esta página. Inicia sesión con una cuenta con acceso.
     </div>
     {% else %}
     <div class="alert alert-info" role="alert">
-        <strong>Attention:</strong> Please login to see this page.
+        <strong>Atención:</strong> Inicie sesión para ver esta página.
     </div>
     {% endif %}
 {% endif %}
@@ -27,25 +27,25 @@
         <div class="col-md-6">
             <div class="card shadow-sm border-0 rounded">
                 <div class="card-header bg-primary text-white text-center">
-                    <h3>Login</h3>
+                    <h3>Iniciar sesión</h3>
                 </div>
                 <div class="card-body">
                     <form method="post" action="{% url 'login' %}">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="id_username" class="font-weight-bold text-dark">Username</label>
+                            <label for="id_username" class="font-weight-bold text-dark">Nombre de usuario</label>
                             <input type="text" name="username" id="id_username" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="id_password" class="font-weight-bold text-dark">Password</label>
+                            <label for="id_password" class="font-weight-bold text-dark">Contraseña</label>
                             <input type="password" name="password" id="id_password" class="form-control">
                         </div>
-                        <button type="submit" class="mt-2 btn btn-primary btn-block">Login</button>
+                        <button type="submit" class="mt-2 btn btn-primary btn-block">Iniciar sesión</button>
                         <input type="hidden" name="next" value="{{ next }}">
                     </form>
                 </div>
                 <div class="card-footer text-center bg-white">
-                    <p><a href="{% url 'password_reset' %}" class="text-primary">Lost password?</a></p>
+                    <p><a href="{% url 'password_reset' %}" class="text-primary">¿Perdiste tu contraseña?</a></p>
                     <a href="{% url 'app:registro' %}" class="btn btn-info btn-sm">Registrar nuevo usuario</a>
                 </div>
             </div>
