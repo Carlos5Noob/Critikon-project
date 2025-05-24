@@ -30,4 +30,6 @@ USER django
 
 EXPOSE 8000
 
+RUN python manage.py collectstatic --noinput
+
 CMD ["gunicorn", "critikon.wsgi:application", "--bind", "0.0.0.0:8000"]
