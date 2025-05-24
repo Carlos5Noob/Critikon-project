@@ -27,3 +27,5 @@ RUN chown -R django:django /app
 
 # Cambia al usuario no root
 USER django
+
+EXPOSE 8000
