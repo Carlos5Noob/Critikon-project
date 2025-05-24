@@ -13,8 +13,6 @@ services:
     user: "${UID}:${GID}"
     depends_on:
       - db
-#      - mailpit
-    command: python manage.py runserver 0.0.0.0:8000
 
   db:
     image: postgres:16

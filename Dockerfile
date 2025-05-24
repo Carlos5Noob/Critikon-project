@@ -29,3 +29,5 @@ RUN chown -R django:django /app
 USER django
 
 EXPOSE 8000
+
+CMD ["gunicorn", "critikon.wsgi:application", "--bind", "0.0.0.0:8000"]
