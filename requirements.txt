@@ -8,3 +8,4 @@ httpie
 psycopg2==2.9.10
 python-decouple
 gunicorn
+whitenoise
