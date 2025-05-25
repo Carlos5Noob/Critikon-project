@@ -21,5 +21,10 @@ Entre los detalles que se podrá recoger de cada videojuego incluyen: título, f
 - Django Rest Framework => api rest
 - Bootstrap 5 => diseño responsive
 
+## Despliegue Web
+La aplicación está desplegada en una máquina EC2 de AWS.
+[Pincha aquí para entrar en CRITIKON](https://critikon.carlos5noob.tech)
+*IMPORTANTE: Si la página no carga correctamente, es posible que los contenedores estén detenidos. Esto se debe a las limitaciones de la capa gratuita de AWS, la cual no garantiza la ejecución continua de los servicios.*
+
 ## Desarrollador del proyecto: 
 [Carlos Chacón Atienza](https://carlos5noob.github.io/Portfolio-Carlos_Chacon/)
