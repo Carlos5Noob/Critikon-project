@@ -1,75 +1,53 @@
-# version: "3.9"
-
 services:
   traefik:
     image: "traefik:v3.2"
     container_name: "traefik"
-    # restart: always # add
     command:
-      - "--log.level=INFO"  # logging levels are TRACE, DEBUG, INFO, WARN, ERROR, FATAL, and PANIC.
+      - "--log.level=INFO"
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
 
-      # Bloque letsencrypt
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entryPoints.websecure.address=:443"
 
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=cchaati2101@fp.iesromerovargas.com"
+      - "--certificatesresolvers.myresolver.acme.email=your-email@example.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-
-      ## La línea comentada --certificatesresolvers.myresolver.acme.caserver apunta al entorno de pruebas de ## Let's Encrypt. Esto es útil para evitar límites de emisión durante las pruebas.
-      # # - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`carlos5noob.tech`)"
+      - "traefik.http.routers.traefik.rule=Host(`yourdomain.com`)"
       - "traefik.http.routers.traefik.service=api@internal"
-
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=myresolver"
-      # Añade autenticación test/test
-      - "traefik.http.routers.traefik.middlewares=myauth"
-      - "traefik.http.middlewares.myauth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/"
 
     ports:
       - "443:443"
       - "8080:8080"
-      # - "8000:8000"
       - "80:80"
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-  whoami:
-    image: "traefik/whoami"
-    container_name: "whoami"
-    labels:
-      - "traefik.enable=true"
-      # Usar  cada uno SU DOMINIO .tech
-      - "traefik.http.routers.whoami.rule=Host(`quiensoy.carlos5noob.tech`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
-
   web:
-    image: carlosjr5/critikon
+    build: .
+    image: critikon:latest
     container_name: django_web
     volumes:
       - .:/app
     env_file:
       - .env
-    user: "${UID}:${GID}"
     depends_on:
       - db
     expose:
       - "8000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`critikon.carlos5noob.tech`)"
+      - "traefik.http.routers.web.rule=Host(`app.yourdomain.com`)"
       - "traefik.http.routers.web.entrypoints=websecure"
       - "traefik.http.routers.web.tls.certresolver=myresolver"
 
@@ -89,7 +67,7 @@ services:
       - ./media:/usr/share/nginx/html/media:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.media.rule=Host(`critikon.carlos5noob.tech`) && PathPrefix(`/media`)"
+      - "traefik.http.routers.media.rule=Host(`app.yourdomain.com`) && PathPrefix(`/media`)"
       - "traefik.http.routers.media.entrypoints=websecure"
       - "traefik.http.routers.media.tls.certresolver=myresolver"
       - "traefik.http.services.media.loadbalancer.server.port=80"
