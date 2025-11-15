@@ -1,30 +1,69 @@
-# CRITIKON
-![](https://fondosmil.co/fondo/3551.jpg)
+# CRITIKON  
+![](screenshots/captura3.png)
 
-## Guía de la web
-En **CRITIKON**, nuestros usuarios podrán dedicar su tiempo a escribir reviews sobre distintos videojuegos, además de compartir feedback entre otros usuarios dando likes y/o escribiendo comentarios.
-El objetivo principal de la plataforma es crear un ambiente gamer donde los usuarios se sientan en su zona de confort, puedan expresarse libremente, conectar con otros jugadores que compartan sus intereses y disfrutar de experiencias personalizadas que potencien su pasión por los videojuegos.
+---
 
-## Información de la API
-¡Los usuarios podrán recoger datos de hasta 101 videojuegos existentes! ¡Y GRATIS!
-Entre los detalles que se podrá recoger de cada videojuego incluyen: título, fecha de lanzamiento, valoración de la plataforma, portada del mismo y género.
+## 📌 Website Overview
+**CRITIKON** is a web platform where users can write detailed reviews about a wide variety of video games, share feedback, interact with other players, and engage in a community built around gaming culture.
 
-## Funcionalidades
-- Escribir reviews sobre videojuegos.
-- Comentar y dar feedback a las reviews de otros usuarios.
-- Sistema de follows y followers entre los usuarios de la plataforma.
-- Recoger datos de los videojuegos disponibles a través de la API oficial.
-- ¡Mucho más!
+The primary goal of CRITIKON is to create a welcoming environment for gamers where they can freely express their thoughts, discover new titles, connect with players with similar interests, and enjoy a personalized experience that enhances their passion for video games.
 
-## Tecnologías utilizadas
-- Django => framework web
-- Django Rest Framework => api rest
-- Bootstrap 5 => diseño responsive
+---
 
-## Despliegue Web
-La aplicación está desplegada en una máquina EC2 de AWS.
-[Pincha aquí para entrar en CRITIKON](https://critikon.carlos5noob.tech)
-*IMPORTANTE: Si la página no carga correctamente, es posible que los contenedores estén detenidos. Esto se debe a las limitaciones de la capa gratuita de AWS, la cual no garantiza la ejecución continua de los servicios.*
+## 🎮 API Information
+Users can access data for **up to 101 real video games — completely free** through the integrated external API.
 
-## Desarrollador del proyecto: 
-[Carlos Chacón Atienza](https://carlos5noob.github.io/Portfolio-Carlos_Chacon/)
+For each game, the system retrieves:
+
+- Title  
+- Release date  
+- Platform rating  
+- Cover image  
+- Genre  
+
+![](screenshots/captura1.png)
+
+---
+
+## 🚀 Core Features
+- Create detailed video game reviews.  
+- Comment on reviews made by other users.  
+- Like and provide feedback on community posts.  
+- User following system (followers & following).  
+- Automatic retrieval of video game data from the official external API.  
+- And much more!
+
+---
+
+## 🛠️ Technologies Used
+- **Django** — Web framework  
+- **Django Rest Framework** — RESTful API  
+- **Bootstrap 5** — Responsive UI  
+
+---
+
+## 🖼️ Screenshots
+![](screenshots/captura2.png)
+![](screenshots/captura3.png)
+![](screenshots/captura4.png)
+![](screenshots/captura5.png)
+
+---
+
+## 🌐 Web Deployment
+The project is fully configured and prepared for deployment on an **AWS EC2 instance**, including environment setup and containerization.
+
+However, the application is **not currently running**, as the previous deployment relied on an AWS Free Tier instance, which has expired.
+
+This means:
+
+- The project is ready for instant redeployment on EC2.  
+- All configuration files and deployment settings are already included.  
+- The buyer can deploy it again in minutes by launching a new instance.  
+
+This makes CRITIKON an excellent option for anyone looking for a **ready-to-launch Django web application with API integration**.
+
+---
+
+## 👨‍💻 Project Developer
+[Carlos Chacón Atienza](https://portfolio-carlos5noob.vercel.app/)
